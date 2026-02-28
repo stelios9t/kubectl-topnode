@@ -28,4 +28,7 @@ default              test-6bc6b589d7-psxbr                        0m           1
 kube-system          kindnet-brsst                                2m           12Mi
 kube-system          kube-proxy-5brhq                             2m           12Mi
 kube-system          metrics-server-757fd7d849-4g9jr              8m           23Mi
+
+kubectl-topnode kind-worker3
+Error from server (NotFound): nodes "kind-worker3" not found
 ```

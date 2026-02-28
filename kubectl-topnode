@@ -12,6 +12,11 @@ if ! command -v kubectl >/dev/null 2>&1; then
     exit 1
 fi
 
+if ! kubectl get node "$NODE" >/dev/null 2>&1; then
+    echo "Error from server (NotFound): nodes "$NODE" not found"
+    exit 1
+fi
+
 PODS=$(kubectl get pods -o wide -A  | awk -v NODE="$NODE" '$8==NODE {print $2}')
 
 if [[ -z "$PODS" ]]; then
