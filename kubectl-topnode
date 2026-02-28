@@ -1,0 +1,25 @@
+#!/bin/bash
+
+NODE=$1
+
+if [[ -z $NODE ]]; then
+    echo "Usage: $0 NODE"
+    exit 1
+fi
+
+if ! command -v kubectl >/dev/null 2>&1; then
+    echo "kubectl not found"
+    exit 1
+fi
+
+PODS=$(kubectl get pods -o wide -A  | awk -v NODE="$NODE" '$8==NODE {print $2}')
+
+if [[ -z "$PODS" ]]; then
+    echo "No pods found on node '$NODE'"
+    exit 0
+fi
+
+kubectl top pods -A | grep -Ff <(echo "$PODS")
+#<() -> process subssitution - creates a temporary file for the pod names to be stored
+#-f -> reads from the temporary file
+#-F -> treats as fixed strings, not regexes
